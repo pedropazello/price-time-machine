@@ -11,8 +11,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-type Americanas struct {
-}
+type Americanas struct{}
 
 func (a *Americanas) GetOfferFor(url string) models.Offer {
 	doc := htmlDocByUrl(url)
