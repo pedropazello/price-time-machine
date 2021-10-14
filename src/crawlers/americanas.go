@@ -1,33 +1,27 @@
-package main
+package crawlers
 
 import (
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
 	"strings"
 
 	"github.com/antchfx/htmlquery"
+	"github.com/pedropazello/price-time-machine/src/models"
 	"golang.org/x/net/html"
 )
 
-type Offer struct {
-	productName string
-	price       float64
-	url         string
+type Americanas struct {
 }
 
-func main() {
-	url := "https://www.americanas.com.br/produto/2779138678?pfm_carac=bicicleta-caloi-vulcan&pfm_page=search&pfm_pos=grid&pfm_type=search_page&offerId=607862e60c070442666ca14f&buyboxToken=smartbuybox-acom-v2-addaba6c-8376-4596-8176-344fc36d2414-2021-10-12%2011%3A01%3A00-0300&cor=BRANCO&tamanho=17"
-
+func (a *Americanas) GetOfferFor(url string) models.Offer {
 	doc := htmlDocByUrl(url)
 
-	var offer Offer
-	offer.productName = parseName(doc)
-	offer.url = url
-	offer.price = parsePrice(doc)
-
-	fmt.Println(offer)
+	offer := models.Offer{}
+	offer.ProductName = parseName(doc)
+	offer.Url = url
+	offer.Price = parsePrice(doc)
+	return offer
 }
 
 func htmlDocByUrl(url string) *html.Node {
