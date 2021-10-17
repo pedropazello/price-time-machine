@@ -6,5 +6,9 @@
     {
         "url": "https://produto.mercadolivre.com.br/MLB-1095601855-bicicleta-viking-tuff-21-velocidadesfreio-a-disco-_JM#reco_item_pos=2&reco_backend=machinalis-homes-pdp-boos&reco_backend_type=function&reco_client=home_navigation-trend-recommendations&reco_id=c3651eb8-1f61-4a90-b419-fe481231f656&c_id=/home/navigation-trends-recommendations/element&c_element_order=3&c_uid=2e7f9525-43a4-466b-88fa-50b4d4bbf2b1",
         "parser": "MercadoLivre"
+    },
+    {
+        "url": "https://www.americanas.com.br/produto/3687982687?chave=dk_hm_bn_8_4_ge&offerId=612938ef09c351890dda7dea",
+        "parser": "Americanas"
     }
 ]
