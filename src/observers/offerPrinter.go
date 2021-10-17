@@ -8,6 +8,7 @@ import (
 
 type OfferPrinter struct{}
 
-func (o *OfferPrinter) Execute(offer models.Offer) {
+func (o *OfferPrinter) Execute(offer models.Offer) error {
 	fmt.Println(offer)
+	return nil
 }
