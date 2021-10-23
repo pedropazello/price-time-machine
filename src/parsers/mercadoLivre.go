@@ -1,6 +1,7 @@
 package parsers
 
 import (
+	"errors"
 	"strconv"
 	"strings"
 
@@ -13,6 +14,10 @@ type MercadoLivre struct{}
 func (m *MercadoLivre) ParseName(doc *html.Node) (string, error) {
 	element, err := htmlquery.Query(doc, "/html/body/main/div/div[3]/div/div[1]/div/div[1]/div/div[1]/div/div[2]/h1")
 
+	if element == nil {
+		return "", errors.New("name not found")
+	}
+
 	if err != nil {
 		return "", err
 	}
@@ -24,6 +29,10 @@ func (m *MercadoLivre) ParseName(doc *html.Node) (string, error) {
 
 func (m *MercadoLivre) ParsePrice(doc *html.Node) (float64, error) {
 	element, err := htmlquery.Query(doc, "/html/body/main/div/div[3]/div/div[1]/div/div[1]/div/div[2]/div/div[1]/span/span[2]/span[2]")
+
+	if element == nil {
+		return 0.0, errors.New("price not found")
+	}
 
 	if err != nil {
 		return 0.0, err

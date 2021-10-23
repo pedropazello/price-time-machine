@@ -1,6 +1,7 @@
 package parsers
 
 import (
+	"errors"
 	"strconv"
 	"strings"
 
@@ -13,6 +14,10 @@ type Americanas struct{}
 func (a *Americanas) ParseName(doc *html.Node) (string, error) {
 	element, err := htmlquery.Query(doc, "//h1[1]")
 
+	if element == nil {
+		return "", errors.New("name not found")
+	}
+
 	if err != nil {
 		return "", err
 	}
@@ -24,6 +29,10 @@ func (a *Americanas) ParseName(doc *html.Node) (string, error) {
 
 func (a *Americanas) ParsePrice(doc *html.Node) (float64, error) {
 	element, err := htmlquery.Query(doc, "/html/body/div[1]/div/div/main/div[2]/div[2]/div[1]/div[2]/div")
+
+	if element == nil {
+		return 0.0, errors.New("price not found")
+	}
 
 	if err != nil {
 		return 0.0, err

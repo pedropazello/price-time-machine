@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -13,24 +14,25 @@ import (
 )
 
 func GetOffer(url string, parser parsers.Parser, observers []observers.Observer) error {
+	urlError := errors.New("URL failed: " + url).Error()
+
 	doc, err := htmlDocByUrl(url)
 
 	if err != nil {
-		return err
+		return errors.New(urlError + " - " + err.Error())
 	}
 
 	offer := models.Offer{}
 	offer.ProductName, err = parser.ParseName(doc)
 
 	if err != nil {
-		return err
+		return errors.New(urlError + " - " + err.Error())
 	}
 
-	offer.Url = url
 	offer.Price, err = parser.ParsePrice(doc)
 
 	if err != nil {
-		return err
+		return errors.New(urlError + " - " + err.Error())
 	}
 
 	for i := range observers {

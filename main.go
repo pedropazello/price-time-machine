@@ -16,7 +16,9 @@ func main() {
 		fmt.Println(err)
 	}
 
-	actions := []observers.Observer{&observers.OfferPrinter{}, &observers.OfferSQSSender{}}
+	actions := []observers.Observer{}
+	actions = append(actions, &observers.OfferPrinter{})
+	actions = append(actions, &observers.OfferSQSSender{})
 
 	for _, site := range urls {
 		var crawler parsers.Parser
