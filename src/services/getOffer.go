@@ -10,27 +10,30 @@ import (
 	"github.com/pedropazello/price-time-machine/src/models"
 	"github.com/pedropazello/price-time-machine/src/observers"
 	"github.com/pedropazello/price-time-machine/src/parsers"
-	"golang.org/x/net/html"
 )
 
 func GetOffer(url string, parser parsers.Parser, observers []observers.Observer) error {
 	urlError := errors.New("URL failed: " + url).Error()
 
-	doc, err := htmlDocByUrl(url)
+	body, err := getUrlResponseBody(url)
+	if err != nil {
+		return errors.New(urlError + " - " + err.Error())
+	}
 
+	doc, err := htmlquery.Parse(strings.NewReader(body))
 	if err != nil {
 		return errors.New(urlError + " - " + err.Error())
 	}
 
 	offer := models.Offer{}
-	offer.ProductName, err = parser.ParseName(doc)
+	offer.Url = url
 
+	offer.ProductName, err = parser.ParseName(doc)
 	if err != nil {
 		return errors.New(urlError + " - " + err.Error())
 	}
 
 	offer.Price, err = parser.ParsePrice(doc)
-
 	if err != nil {
 		return errors.New(urlError + " - " + err.Error())
 	}
@@ -40,22 +43,6 @@ func GetOffer(url string, parser parsers.Parser, observers []observers.Observer)
 	}
 
 	return nil
-}
-
-func htmlDocByUrl(url string) (*html.Node, error) {
-	body, err := getUrlResponseBody(url)
-
-	if err != nil {
-		return nil, err
-	}
-
-	doc, err := htmlquery.Parse(strings.NewReader(body))
-
-	if err != nil {
-		return nil, err
-	}
-
-	return doc, nil
 }
 
 func getUrlResponseBody(url string) (string, error) {
